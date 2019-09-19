@@ -4,12 +4,14 @@ import dto.PersonDTO;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -25,11 +27,14 @@ public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @Column(name="PERSON_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String firstName;
     private String lastName;
     private String phone;
+    @OneToOne
+    private Address address;
     
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date created;
