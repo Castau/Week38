@@ -40,7 +40,7 @@ public class PersonResource {
     @GET
     @Path("/data")
     @Produces({MediaType.APPLICATION_JSON})
-    public String data() {
+    public String data() throws PersonNotFoundException {
         EntityManager em = EMF.createEntityManager();
         List<Person> personlist = new ArrayList<>();
         personlist.add(new Person("Rigmor", "NoggenFogger", "12345678", new Address("Hattemagervej 13", "3600", "Hillerød")));
@@ -92,6 +92,13 @@ public class PersonResource {
 //            query3.executeUpdate();
 //            em.getTransaction().commit();
             
+            for(Person p : personlist){
+                Address address = FACADE.getPersonAddress(p.getAddress());
+                if(address != null){
+                    p.setAddress(address);
+                }
+            }
+
             em.getTransaction().begin();
             em.getTransaction().commit();
             for (Person p : personlist) {
@@ -109,8 +116,6 @@ public class PersonResource {
     @Produces({MediaType.APPLICATION_JSON})
     public String getAllPersonsDTO() throws PersonNotFoundException {
         PersonsDTO persons = new PersonsDTO(FACADE.getAllPersons());
-//        Map all = new HashMap();
-//        all.put("all", persons);
         return GSON.toJson(persons);
     }
 
