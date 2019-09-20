@@ -1,5 +1,6 @@
 package dto;
 
+import entities.Address;
 import entities.Person;
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ public class PersonDTO {
     private String fName;
     private String lName;
     private String phone;
+    private Address address;
 
     public PersonDTO(String fName, String lName, String phone) {
         this.fName = fName;
@@ -25,8 +27,16 @@ public class PersonDTO {
         this.fName = person.getFirstName();
         this.lName = person.getLastName();
         this.phone = person.getPhone();
+        this.address = person.getAddress();
     }
 
+    public PersonDTO(String fName, String lName, String phone, Address address) {
+        this.fName = fName;
+        this.lName = lName;
+        this.phone = phone;
+        this.address = address;
+    }
+    
     public PersonDTO() {
     }
 
@@ -61,6 +71,16 @@ public class PersonDTO {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+    
+    
 
     @Override
     public int hashCode() {

@@ -1,11 +1,14 @@
 package facades;
 
+import entities.Address;
 import entities.Person;
 import exception.PersonNotFoundException;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -32,13 +35,15 @@ public class PersonFacadeImpl implements IPersonFacade {
     }
 
     @Override
-    public Person addPerson(String fName, String lName, String phone) {
+    public Person addPerson(String fName, String lName, String phone, Address address) {
         if (fName != null && !fName.isEmpty() && lName != null && !lName.isEmpty() && phone != null && !phone.isEmpty()) {
             EntityManager em = getEntityManager();
             try {
                 em.getTransaction().begin();
+                Address dbAddress = getPersonAddress(address);
                 Person person = new Person(fName, lName, phone);
-                em.persist(person);
+                person.setAddress(dbAddress == null ? address : dbAddress);
+                em.merge(person);
                 em.getTransaction().commit();
                 return person;
             } catch (Exception e) {
@@ -67,7 +72,6 @@ public class PersonFacadeImpl implements IPersonFacade {
         } finally {
             em.close();
         }
-
     }
 
     @Override
@@ -116,6 +120,23 @@ public class PersonFacadeImpl implements IPersonFacade {
         } catch (Exception e) {
             em.getTransaction().rollback();
             throw new PersonNotFoundException("Could not edit");
+        } finally {
+            em.close();
+        }
+    }
+    
+    @Override
+    public Address getPersonAddress(Address address) throws PersonNotFoundException {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Address> query = em.createQuery("SELECT a FROM Address a WHERE a.city = :city AND a.street = :street  AND a.zip = :zip", Address.class);
+            query.setParameter("city", address.getCity());
+            query.setParameter("street",address.getStreet());
+            query.setParameter("zip", address.getZip());
+            Address foundAddress = (Address) query.getSingleResult();
+            return foundAddress;
+        }catch(Exception ex){
+            return null;
         } finally {
             em.close();
         }

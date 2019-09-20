@@ -2,7 +2,6 @@ package rest;
 
 import dto.PersonDTO;
 import entities.Person;
-import entities.RenameMe;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
 import io.restassured.parsing.Parser;
@@ -133,7 +132,7 @@ public class PersonResourceTest {
     public void testGetPersonDTObyID_ERROR() {
         given()
                 .contentType("application/json")
-                .get("/person/databaseid/5").then()
+                .get("/person/databaseid/99").then()
                 .assertThat().statusCode(HttpStatus.NOT_FOUND_404.getStatusCode())
                 .body("code", equalTo(404))
                 .body("message", equalTo("No person with provided id found"));

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.PersonDTO;
 import dto.PersonsDTO;
+import entities.Address;
 import entities.Person;
 import exception.PersonNotFoundException;
 import facades.IPersonFacade;
@@ -39,26 +40,80 @@ public class PersonResource {
     @GET
     @Path("/data")
     @Produces({MediaType.APPLICATION_JSON})
-    public String data() {
+    public String data() throws PersonNotFoundException {
         EntityManager em = EMF.createEntityManager();
         List<Person> personlist = new ArrayList<>();
-        personlist.add(new Person("Rigmor", "NoggenFogger", "12345678"));
-        personlist.add(new Person("Baltazar", "Zacharias", "87654321"));
-        personlist.add(new Person("Ulfred", "Satyr", "33333333"));
-        personlist.add(new Person("Ursula", "Johansen", "22334455"));
+        Address address1 = new Address("Hattemagervej 13", "3600", "Hillerød");
+        Address address2 = new Address("Kongevej 1", "4000", "Roskilde");
+        Address address3 = new Address("Kongevej 4", "4000", "Roskilde");
+        
+        personlist.add(new Person("Rigmor", "NoggenFogger", "12345678", address1));
+        personlist.add(new Person("Baltazar", "Zacharias", "87654321", address1));
+        personlist.add(new Person("Ulfred", "Satyr", "33333333", address2));
+        personlist.add(new Person("Ursula", "Johansen", "22334455", address3));
 
         try {
-            em.getTransaction().begin();
-            Query query = em.createNativeQuery("truncate table person.PERSON;");
-            query.executeUpdate();
-            em.getTransaction().commit();
+//            em.getTransaction().begin();
+//            Query query1 = em.createNativeQuery(
+//                    "truncate table person.PERSON; "
+//                    + "DELETE FROM person.ADDRESS WHERE `id` > 0; "
+//                    + "ALTER TABLE person.ADDRESS AUTO_INCREMENT = 1;");
+//            query1.executeUpdate();
+//            em.getTransaction().commit();
 
+            em.getTransaction().begin();
+            Query query1 = em.createNativeQuery("SET FOREIGN_KEY_CHECKS = 0;");
+            query1.executeUpdate();
+            em.getTransaction().commit();
+            
+            em.getTransaction().begin();
+            Query query2 = em.createNativeQuery("truncate table person.PERSON;");
+            query2.executeUpdate();
+            em.getTransaction().commit();
+            
+            em.getTransaction().begin();
+            Query query3 = em.createNativeQuery("truncate table person.ADDRESS;");
+            query3.executeUpdate();
+            em.getTransaction().commit();
+            
+            em.getTransaction().begin();
+            Query query4 = em.createNativeQuery("SET FOREIGN_KEY_CHECKS = 1; ");
+            query4.executeUpdate();
+            em.getTransaction().commit();
+            
+//            em.getTransaction().begin();
+//            Query query1 = em.createNativeQuery("truncate table person.PERSON;");
+//            query1.executeUpdate();
+//            em.getTransaction().commit();
+//            
+//            em.getTransaction().begin();
+//            Query query2 = em.createNativeQuery("DELETE FROM person.ADDRESS WHERE `id` > 0;");
+//            query2.executeUpdate();
+//            em.getTransaction().commit();
+//            
+//            em.getTransaction().begin();
+//            Query query3 = em.createNativeQuery("ALTER TABLE person.ADDRESS AUTO_INCREMENT = 1;");
+//            query3.executeUpdate();
+//            em.getTransaction().commit();
+            
+//            for(Person p : personlist){
+//                Address address = FACADE.getPersonAddress(p.getAddress());
+//                if(address != null){
+//                    p.setAddress(address);
+//                }
+//            }
+            em.getTransaction().begin();
+            em.getTransaction().commit();
             for (Person p : personlist) {
                 em.getTransaction().begin();
-                em.persist(p);
+                Address address = FACADE.getPersonAddress(p.getAddress());
+                if(address != null){
+                    p.setAddress(address);
+                }
+                em.merge(p);
                 em.getTransaction().commit();
             }
-        } finally {
+        }finally {
             em.close();
         }
         return "{\"msg\": \"startdata created\"}";
@@ -68,8 +123,6 @@ public class PersonResource {
     @Produces({MediaType.APPLICATION_JSON})
     public String getAllPersonsDTO() throws PersonNotFoundException {
         PersonsDTO persons = new PersonsDTO(FACADE.getAllPersons());
-//        Map all = new HashMap();
-//        all.put("all", persons);
         return GSON.toJson(persons);
     }
 
@@ -86,7 +139,7 @@ public class PersonResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addPerson(String p) {
         PersonDTO personDTO = GSON.fromJson(p, PersonDTO.class);
-        Person person = FACADE.addPerson(personDTO.getfName(), personDTO.getlName(), personDTO.getPhone());
+        Person person = FACADE.addPerson(personDTO.getfName(), personDTO.getlName(), personDTO.getPhone(), personDTO.getAddress());
         PersonDTO responseDTO = new PersonDTO(person);
         return Response.ok(responseDTO).build();
     }
@@ -109,12 +162,12 @@ public class PersonResource {
         FACADE.deletePerson(id);
         return "{\"msg\": \"removed person\"}";
     }
-    
+
     @Path("/fail")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String fail() {
-        System.out.println(17/0);
+        System.out.println(17 / 0);
         return "";
     }
 }
