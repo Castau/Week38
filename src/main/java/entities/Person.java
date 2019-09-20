@@ -66,6 +66,25 @@ public class Person implements Serializable {
         this.lastName = lastName;
         this.phone = phone;
     }
+
+    public Person(int id, String firstName, String lastName, String phone, Address address) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.address = address;
+        this.created = new Date();
+        this.lastEdited = new Date();
+    }
+
+    public Person(String firstName, String lastName, String phone, Address address) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.address = address;
+        this.created = new Date();
+        this.lastEdited = new Date();
+    }
     
     public Person() {
     }
@@ -88,6 +107,16 @@ public class Person implements Serializable {
         }
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    
+    
     public int getId() {
         return id;
     }
