@@ -4,11 +4,13 @@ import dto.PersonDTO;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -33,7 +35,8 @@ public class Person implements Serializable {
     private String firstName;
     private String lastName;
     private String phone;
-    @OneToOne
+    
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Address address;
     
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
