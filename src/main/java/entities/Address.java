@@ -28,7 +28,7 @@ public class Address implements Serializable {
     private String city;
     
     @OneToMany(mappedBy = "address", cascade = CascadeType.PERSIST)
-    private List<Person> persons;
+    private transient List<Person> persons;
     
 
     public Address(String street, String zip, String city) {
@@ -38,6 +38,14 @@ public class Address implements Serializable {
     }
 
     public Address() {
+    }
+
+    public List<Person> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
     }
 
     public int getId() {

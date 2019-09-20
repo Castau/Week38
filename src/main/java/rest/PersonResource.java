@@ -43,10 +43,14 @@ public class PersonResource {
     public String data() throws PersonNotFoundException {
         EntityManager em = EMF.createEntityManager();
         List<Person> personlist = new ArrayList<>();
-        personlist.add(new Person("Rigmor", "NoggenFogger", "12345678", new Address("Hattemagervej 13", "3600", "Hillerød")));
-        personlist.add(new Person("Baltazar", "Zacharias", "87654321", new Address("Hattemagervej 13", "3600", "Hillerød")));
-        personlist.add(new Person("Ulfred", "Satyr", "33333333", new Address("Kongevej 1", "4000", "Roskilde")));
-        personlist.add(new Person("Ursula", "Johansen", "22334455", new Address("Kongevej 4", "4000", "Roskilde")));
+        Address address1 = new Address("Hattemagervej 13", "3600", "Hillerød");
+        Address address2 = new Address("Kongevej 1", "4000", "Roskilde");
+        Address address3 = new Address("Kongevej 4", "4000", "Roskilde");
+        
+        personlist.add(new Person("Rigmor", "NoggenFogger", "12345678", address1));
+        personlist.add(new Person("Baltazar", "Zacharias", "87654321", address1));
+        personlist.add(new Person("Ulfred", "Satyr", "33333333", address2));
+        personlist.add(new Person("Ursula", "Johansen", "22334455", address3));
 
         try {
 //            em.getTransaction().begin();
@@ -92,21 +96,24 @@ public class PersonResource {
 //            query3.executeUpdate();
 //            em.getTransaction().commit();
             
-            for(Person p : personlist){
-                Address address = FACADE.getPersonAddress(p.getAddress());
-                if(address != null){
-                    p.setAddress(address);
-                }
-            }
-
+//            for(Person p : personlist){
+//                Address address = FACADE.getPersonAddress(p.getAddress());
+//                if(address != null){
+//                    p.setAddress(address);
+//                }
+//            }
             em.getTransaction().begin();
             em.getTransaction().commit();
             for (Person p : personlist) {
                 em.getTransaction().begin();
-                em.persist(p);
+                Address address = FACADE.getPersonAddress(p.getAddress());
+                if(address != null){
+                    p.setAddress(address);
+                }
+                em.merge(p);
                 em.getTransaction().commit();
             }
-        } finally {
+        }finally {
             em.close();
         }
         return "{\"msg\": \"startdata created\"}";
@@ -132,7 +139,7 @@ public class PersonResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addPerson(String p) {
         PersonDTO personDTO = GSON.fromJson(p, PersonDTO.class);
-        Person person = FACADE.addPerson(personDTO.getfName(), personDTO.getlName(), personDTO.getPhone());
+        Person person = FACADE.addPerson(personDTO.getfName(), personDTO.getlName(), personDTO.getPhone(), personDTO.getAddress());
         PersonDTO responseDTO = new PersonDTO(person);
         return Response.ok(responseDTO).build();
     }

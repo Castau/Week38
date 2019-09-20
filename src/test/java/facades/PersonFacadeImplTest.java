@@ -62,7 +62,7 @@ public class PersonFacadeImplTest {
     @Test
     public void addPersonTest() {
         Person exp = new Person("Hat", "Hatsen", "22222222");
-        Person res = facade.addPerson("Hat", "Hatsen", "22222222");
+        Person res = facade.addPerson("Hat", "Hatsen", "22222222", null);
         assertEquals(exp, res);
     }
 
@@ -70,7 +70,7 @@ public class PersonFacadeImplTest {
     public void addPersonTest_ERROR() {
         Throwable exp = new IllegalArgumentException();
         Throwable res = assertThrows(IllegalArgumentException.class, () -> {
-            facade.addPerson(null, null, null);
+            facade.addPerson(null, null, null, null);
         });
         assertEquals(exp.getCause(), res.getCause());
     }

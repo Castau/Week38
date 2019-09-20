@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface IPersonFacade {
 
-    public Person addPerson(String fName, String lName, String phone);
+    public Person addPerson(String fName, String lName, String phone, Address address);
 
     public Person deletePerson(int id) throws PersonNotFoundException;
 

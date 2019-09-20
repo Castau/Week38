@@ -36,7 +36,7 @@ public class Person implements Serializable {
     private String lastName;
     private String phone;
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Address address;
     
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)

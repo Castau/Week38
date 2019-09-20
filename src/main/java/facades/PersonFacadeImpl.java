@@ -35,13 +35,15 @@ public class PersonFacadeImpl implements IPersonFacade {
     }
 
     @Override
-    public Person addPerson(String fName, String lName, String phone) {
+    public Person addPerson(String fName, String lName, String phone, Address address) {
         if (fName != null && !fName.isEmpty() && lName != null && !lName.isEmpty() && phone != null && !phone.isEmpty()) {
             EntityManager em = getEntityManager();
             try {
                 em.getTransaction().begin();
+                Address dbAddress = getPersonAddress(address);
                 Person person = new Person(fName, lName, phone);
-                em.persist(person);
+                person.setAddress(dbAddress == null ? address : dbAddress);
+                em.merge(person);
                 em.getTransaction().commit();
                 return person;
             } catch (Exception e) {
@@ -70,7 +72,6 @@ public class PersonFacadeImpl implements IPersonFacade {
         } finally {
             em.close();
         }
-
     }
 
     @Override
@@ -128,12 +129,10 @@ public class PersonFacadeImpl implements IPersonFacade {
     public Address getPersonAddress(Address address) throws PersonNotFoundException {
         EntityManager em = getEntityManager();
         try {
-            em.getTransaction().begin();
-            TypedQuery<Address> query = em.createQuery("SELECT a FROM person.ADDRESS a WHERE a.CITY = :city AND a.STREET = :street  AND a.ZIP = :zip", Address.class);
+            TypedQuery<Address> query = em.createQuery("SELECT a FROM Address a WHERE a.city = :city AND a.street = :street  AND a.zip = :zip", Address.class);
             query.setParameter("city", address.getCity());
             query.setParameter("street",address.getStreet());
             query.setParameter("zip", address.getZip());
-            em.getTransaction().commit();
             Address foundAddress = (Address) query.getSingleResult();
             return foundAddress;
         }catch(Exception ex){
