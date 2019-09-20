@@ -2,7 +2,6 @@ package rest;
 
 import dto.PersonDTO;
 import entities.Person;
-import entities.RenameMe;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
 import io.restassured.parsing.Parser;
