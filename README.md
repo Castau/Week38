@@ -6,7 +6,7 @@
 * [Answers to the questions](https://github.com/Castau/Week38/blob/master/Tuesday/README.md)	
 
 ##### Wednesday & Thursday	
-* [REST with JAX RS](https://github.com/Castau/Week36/tree/master/src/main/webapp/javascript)	
+* [REST with JAX RS](https://github.com/Castau/Week38/tree/master/Wednesday_Thursday/src)	
 
 ##### Friday	
 * [Object Relational Mapping with JPA](https://github.com/Castau/Week36/tree/master/src/main/webapp)	
