@@ -9,7 +9,7 @@
 ##### 2) One to One – Bidirectional
 ###### Run the project and investigate the generated tables (the foreign key). Is there any difference compared to the previous exercise. If not explain why.
 
-* der var ingen forskel - det betyder ikke noget på databaseniveau om relationen er uni- eller bidirectional, da tables bare kan joines på foreign key. I javakoden betyder det noget - når relationen er unidirectional kender address-objektet ikke noget til customer, men når relationen er bidirectional er der en reference til customer-objektet i address-objektet. 
+* Der var ingen forskel - det betyder ikke noget på databaseniveau om relationen er uni- eller bidirectional, da tables bare kan joines på foreign key. I javakoden betyder det noget - når relationen er unidirectional kender address-objektet ikke noget til customer, men når relationen er bidirectional er der en reference til customer-objektet i address-objektet. 
 
 
 ##### 3) OneToMany (unidirectional)
