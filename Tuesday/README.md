@@ -2,7 +2,7 @@
 <br/>
 <br/>
 1) One to One – Unidirectional<br/>  
-##### Make sure you understand everything that changed in the Customer and (if any) in the Address class. Regenerate the schema and investigate the generated tables. Observe the location of the foreign key  
+ ##### Make sure you understand everything that changed in the Customer and (if any) in the Address class. Regenerate the schema and investigate the generated tables. Observe the location of the foreign key  
 
 ###### * Foreign key ligger i customer.address_id og refererer til address.id  
 <br/>
