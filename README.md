@@ -1,4 +1,4 @@
-## Flow 2, 1. week (38)
+## Flow 2, first week (38)
 
 
 #### Tuesday	
@@ -11,6 +11,8 @@
 ##### Friday	
 * [Object Relational Mapping with JPA](https://github.com/Castau/Week36/tree/master/src/main/webapp)	
 * [Answers to the questions](https://github.com/Castau/Week38/tree/master/Tuesday/src)
-
-* None of the extra assignements were done this week due to lack of time	
+  
+  
+  
+None of the extra assignements were done this week due to lack of time	
 
