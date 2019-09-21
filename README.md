@@ -10,7 +10,7 @@
 
 ##### Friday	
 * [Object Relational Mapping with JPA](https://github.com/Castau/Week36/tree/master/src/main/webapp)	
-* [Answers to the questions](https://github.com/Castau/Week38/tree/master/Tuesday/src)
+* [Answers to the questions](https://github.com/Castau/Week38/blob/master/Friday/README.md)
   
   
   
