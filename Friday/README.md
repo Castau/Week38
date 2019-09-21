@@ -7,7 +7,7 @@
 
 ##### * Pros
 
-###### * Ingen SQL, objektorienteret 
+###### * Ingen SQL, men objektorienteret JPQL
 
 ###### * Nestede/relaterede objekter kan automatisk trækkes med ud
 
