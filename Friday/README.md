@@ -24,7 +24,7 @@
 ##### Explain the JPA strategy for handling Object Relational Mapping and important classes/annotations involved.
 ##### * JPA implementationen er vores persistence provider, i vores projekter bruger vi EclipseLink. Mapningen af objekter i Java til tabeller i databasen sker vha. Metadata som oftest er defineret som annotationer i Java Klasserne. Objekter der har disse annotationer defineres som entities. JPA har sit eget query language, JPQL som genererer al SQL.
 
-##### * @Entities, @GeneratedValue, @One/ManyToOne/Many er nok de vigtigste annotationer, men der er mange flere. Se her for flere: https://www.objectdb.com/api/java/jpa/annotations
+##### * @Entities, @GeneratedValue, @One/ManyToOne/Many er nok de vigtigste annotationer, men der er mange flere. [Se her for flere](https://www.objectdb.com/api/java/jpa/annotations)
 <br/>
 <br/>
 
